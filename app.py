@@ -11,7 +11,7 @@ path_to_database = '' #include the path to your database here
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = path_to_database + 'timelessties.db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'LOLUMS'
+app.config['SECRET_KEY'] = 'YOUR KEY HERE'
 db = SQLAlchemy(app)
 
 
