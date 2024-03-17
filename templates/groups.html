@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meetups</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Playfair Display', serif;
+    }
+    .meetup {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+    }
+    .meetup .meetup-info {
+      margin-left: 20px;
+    }
+    .meetup-info h3 {
+      margin-top: 0;
+    }
+    .meetup-info p {
+      margin-bottom: 5px;
+    }
+    .circle-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+    .title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="title">Group Meet-ups</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="meetup">
+        <img src="{{ url_for('static', filename='coffee.png') }}" alt="Meetup Image" class="circle-img">
+        <div class="meetup-info">
+          <h3>Coffee Catch Up</h3>
+          <p>Date: March 20, 2024</p>
+          <p>Time: 10:00 AM</p>
+          <p>Location: Cafe XYZ</p>
+          <button class="btn btn-primary join-btn" onclick="joinMeetup(this)">Join</button>
+        </div>
+      </div>
+      <!-- Add more meetups below -->
+      <div class="meetup">
+        <img src="{{ url_for('static', filename='library.png') }}" alt="Meetup Image" class="circle-img">
+        <div class="meetup-info">
+          <h3>Book Club</h3>
+          <p>Date: March 25, 2024</p>
+          <p>Time: 6:00 PM</p>
+          <p>Location: Library ABC</p>
+          <button class="btn btn-primary join-btn" onclick="joinMeetup(this)">Join</button>
+        </div>
+      </div>
+      <div class="meetup">
+        <img src="{{ url_for('static', filename='potterypainting.png') }}" alt="Meetup Image" class="circle-img">
+        <div class="meetup-info">
+          <h3>Pottery Painting</h3>
+          <p>Date: March 30, 2024</p>
+          <p>Time: 8:00 AM</p>
+          <p>Location: China painting</p>
+          <button class="btn btn-primary join-btn" onclick="joinMeetup(this)">Join</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  function toggleMeetup(button, activityName, date, time, location) {
+    if (button.textContent === "Join") {
+      // Send AJAX request to join the meetup
+      $.ajax({
+        url: '/join-meetup',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          email: form.email,  // Replace with actual user email
+          activity_name: activityName,
+          date: date,
+          time: time,
+          location: location
+        }),
+        success: function (response) {
+          // Update button text and style
+          button.textContent = "Joined";
+          button.classList.remove("btn-primary");
+          button.classList.add("btn-success");
+          alert(response.message);
+        },
+        error: function (xhr, status, error) {
+          alert('Failed to join meetup: ' + error);
+        }
+      });
+    } else {
+      // Send AJAX request to unjoin the meetup
+      $.ajax({
+        url: '/leave-meetup',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          email: form.email,  // Replace with actual user email
+          activity_name: activityName
+        }),
+        success: function (response) {
+          // Update button text and style
+          button.textContent = "Join";
+          button.classList.remove("btn-success");
+          button.classList.add("btn-primary");
+          alert(response.message);
+        },
+        error: function (xhr, status, error) {
+          alert('Failed to leave meetup: ' + error);
+        }
+      });
+    }
+  }
+</script>
+
+
+</body>
+</html>
